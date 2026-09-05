@@ -1,0 +1,203 @@
+.gd-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: rgba(15, 15, 12, 0.5);
+  backdrop-filter: blur(2px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: gdFade 0.15s ease both;
+}
+
+.gd-dialog {
+  /* falls back to sane defaults if mounted before the org theme has
+     applied --brand-* on an ancestor element */
+  --gd-primary: var(--brand-primary, #1F4D3E);
+  --gd-primary-dark: var(--brand-primary-dark, #123328);
+  --gd-surface: var(--brand-surface, #FFFFFF);
+  --gd-bg: var(--brand-bg, #FBF8F2);
+  --gd-text: var(--brand-text, #20241F);
+  --gd-text-secondary: var(--brand-text-secondary, #71786D);
+  --gd-border: var(--brand-border, #E9E4D6);
+
+  position: relative;
+  width: 100%;
+  max-width: 360px;
+  background: var(--gd-surface);
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 24px 60px -16px rgba(0, 0, 0, 0.4);
+  animation: gdPop 0.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.gd-dialog-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: none;
+  background: var(--gd-bg);
+  color: var(--gd-text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.gd-dialog-close:hover {
+  background: var(--gd-border);
+}
+
+/* --- confirm dialog --- */
+
+.gd-confirm {
+  text-align: center;
+}
+
+.gd-confirm-icon {
+  width: 44px;
+  height: 44px;
+  margin: 0 auto 14px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--gd-primary) 14%, transparent);
+  color: var(--gd-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.gd-confirm-icon--danger {
+  background: rgba(196, 99, 59, 0.14);
+  color: #C4633B;
+}
+
+.gd-dialog-title {
+  font-family: 'Fraunces', serif;
+  font-size: 19px;
+  color: var(--gd-text);
+  margin: 0 0 6px;
+}
+
+.gd-dialog-message {
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--gd-text-secondary);
+  margin: 0 0 20px;
+}
+
+.gd-dialog-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.gd-btn {
+  flex: 1;
+  padding: 12px;
+  border-radius: 12px;
+  border: none;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s ease, transform 0.1s ease;
+}
+.gd-btn:active {
+  transform: scale(0.98);
+}
+
+.gd-btn-primary {
+  background: var(--gd-primary);
+  color: #fff;
+}
+.gd-btn-primary:hover {
+  background: var(--gd-primary-dark);
+}
+
+.gd-btn-danger {
+  background: #C4633B;
+  color: #fff;
+}
+.gd-btn-danger:hover {
+  background: #A9522F;
+}
+
+.gd-btn-ghost {
+  background: var(--gd-bg);
+  color: var(--gd-text);
+}
+.gd-btn-ghost:hover {
+  background: var(--gd-border);
+}
+
+.gd-btn-full {
+  width: 100%;
+}
+
+/* --- name/phone dialog --- */
+
+.gd-name-dialog {
+  text-align: left;
+  max-width: 380px;
+}
+
+.gd-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 18px;
+}
+
+.gd-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.gd-field span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--gd-text-secondary);
+}
+
+.gd-field input {
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--gd-border);
+  background: var(--gd-bg);
+  color: var(--gd-text);
+  font-family: inherit;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+.gd-field input:focus {
+  border-color: var(--gd-primary);
+}
+.gd-field input::placeholder {
+  color: var(--gd-text-secondary);
+  opacity: 0.6;
+}
+
+.gd-field-error {
+  font-size: 12px;
+  font-style: normal;
+  color: #C4633B;
+}
+
+@keyframes gdFade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes gdPop {
+  from { opacity: 0; transform: scale(0.94) translateY(6px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gd-backdrop, .gd-dialog { animation: none !important; }
+}
