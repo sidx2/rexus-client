@@ -18,7 +18,7 @@ import './App.css';
    ===================================================================== */
 
 const API_PORT = 8080;
-const API_BASE_URL = `${window.location.protocol}//${window.location.hostname}:${API_PORT}`;
+const API_BASE_URL = `${window.location.protocol}//20.219.138.119:${API_PORT}`;
 const WS_BASE_URL = API_BASE_URL.replace(/^http/, 'ws');
 
 /* =====================================================================
@@ -746,7 +746,7 @@ export default function GuestMenu() {
     // guest-scoped WS endpoint exists on the backend (see connectSocket).
     pollIntervalRef.current = setInterval(() => {
       fetchPendingOrders(orgId, tableId).then(setOrders).catch(() => { });
-    }, 20000);
+    }, 15_000);
 
     return () => {
       cancelled = true;
