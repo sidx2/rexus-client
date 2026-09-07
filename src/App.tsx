@@ -739,7 +739,7 @@ export default function GuestMenu() {
       }
     })();
 
-    connectSocket();
+    // connectSocket(); // !todo later
 
     // Fallback safety net: refresh pending orders periodically regardless
     // of socket state, so tracking still updates even before the
