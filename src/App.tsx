@@ -18,7 +18,8 @@ import './App.css';
    ===================================================================== */
 
 const API_PORT = 8080;
-const API_BASE_URL = `${window.location.protocol}//20.219.138.119`;
+const HOST = "api.rexuss.shop"
+const API_BASE_URL = `${window.location.protocol}//${HOST}`;
 const WS_BASE_URL = API_BASE_URL.replace(/^https/, 'wss');
 
 /* =====================================================================
