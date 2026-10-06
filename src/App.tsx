@@ -19,7 +19,8 @@ import './App.css';
 
 const API_PORT = 8080;
 const HOST = "api.rexuss.shop"
-const API_BASE_URL = `${window.location.protocol}//${HOST}`;
+const PROTOCOL = "https:" // window.location.protocol;
+const API_BASE_URL = `${PROTOCOL}//${HOST}`;
 const WS_BASE_URL = API_BASE_URL.replace(/^https/, 'wss');
 
 /* =====================================================================
@@ -171,7 +172,7 @@ function formatClockTime(ts: number): string {
 // GST for restaurants (non-AC/no-liquor slab) — adjust to match your
 // establishment's actual rate, or better, have the backend return this
 // per-org so it isn't hardcoded on the client at all.
-const GST_RATE = 0.05;
+const GST_RATE = 0 // 0.05;
 
 const STATUS_META: Record<OrderStatus, { label: string; icon: LucideIcon; color: string }> = {
   new: { label: 'New', icon: Sparkles, color: 'var(--status-new)' },
@@ -337,7 +338,11 @@ function MenuItemCard({
   return (
     <div className="gm-item-card" onClick={() => onOpen(item)} role="button" tabIndex={0}>
       <div className="gm-item-card__icon">
-        <Icon size={26} strokeWidth={1.6} />
+        {
+          (item as any).image ?
+          <img src={(item as any).image} alt={item.name} width="100%" /> :
+          <Icon size={26} strokeWidth={1.6} />
+        }
       </div>
       <div className="gm-item-card__body">
         <div className="gm-item-card__row">
@@ -524,7 +529,7 @@ function CartSheet({
               <div className="gm-perforation" />
 
               <div className="gm-bill-row"><span>Subtotal</span><span>{formatPrice(subtotal)}</span></div>
-              <div className="gm-bill-row"><span>GST (5%)</span><span>{formatPrice(tax)}</span></div>
+              {/* <div className="gm-bill-row"><span>GST (5%)</span><span>{formatPrice(tax)}</span></div> */}
               <div className="gm-bill-row gm-bill-row--total"><span>Total</span><span>{formatPrice(total)}</span></div>
             </>
           )}
@@ -834,7 +839,6 @@ export default function GuestMenu() {
 
   const placeOrder = async () => {
     if (cart.length === 0 || placing) return;
-    setPlacing(true);
     setOrderError(null);
 
     const confirmed = await window.askUserConfirmation({
@@ -843,6 +847,8 @@ export default function GuestMenu() {
       confirmLabel: 'Place order',
     });
     if (!confirmed) return;
+
+    setPlacing(true);
 
     if (!window.hasUserNameAndPhone()) {
       const info = await window.askUserForNameAndPhone();
