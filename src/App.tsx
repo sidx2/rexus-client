@@ -599,7 +599,7 @@ function TrackingSheet({
                     <div key={i}><span>{it.qty}× {it.name}</span></div>
                   ))}
                 </div>
-                <div className="gm-order-total"><span>Total</span><span>{formatPrice(order.total)}</span></div>
+                <div className="gm-order-total"><span>Total</span><span>{formatPrice(order.subtotal ?? -1)}</span></div>
               </div>
             ))
           )}
