@@ -83,7 +83,7 @@ interface CartLine {
   note: string;
 }
 
-type OrderStatus = 'new' | 'preparing' | 'ready' | 'served' | 'cancelled';
+type OrderStatus = 'new' | 'paid' | 'cancelled';
 
 interface TrackedOrderItem {
   name: string;
@@ -176,13 +176,13 @@ const GST_RATE = 0 // 0.05;
 
 const STATUS_META: Record<OrderStatus, { label: string; icon: LucideIcon; color: string }> = {
   new: { label: 'New', icon: Sparkles, color: 'var(--status-new)' },
-  preparing: { label: 'Preparing', icon: ChefHat, color: 'var(--status-preparing)' },
-  ready: { label: 'Ready', icon: BellRing, color: 'var(--status-ready)' },
-  served: { label: 'Served', icon: CheckCircle2, color: 'var(--status-served)' },
+  paid: { label: 'Paid', icon: ChefHat, color: 'var(--status-preparing)' },
+  // ready: { label: 'Ready', icon: BellRing, color: 'var(--status-ready)' },
+  // served: { label: 'Served', icon: CheckCircle2, color: 'var(--status-served)' },
   cancelled: { label: 'Cancelled', icon: XCircle, color: 'var(--status-cancelled)' },
 };
 
-const STATUS_ORDER: OrderStatus[] = ['new', 'preparing', 'ready', 'served'];
+const STATUS_ORDER: OrderStatus[] = ['new', 'paid'];
 
 const CATEGORY_ICON_MAP: Record<string, LucideIcon> = {
   starters: Salad,
@@ -848,12 +848,14 @@ export default function GuestMenu() {
     });
     if (!confirmed) return;
 
-    setPlacing(true);
 
     if (!window.hasUserNameAndPhone()) {
       const info = await window.askUserForNameAndPhone();
-      if (!info) return; // they backed out — don't place the order
+      // if (!info) return; // they backed out — don't place the order
     }
+
+    setPlacing(true);
+
     try {
       const newOrder = await submitOrder(orgId, tableId, cart);
       setOrders((prev) => [newOrder, ...prev]);
@@ -868,7 +870,7 @@ export default function GuestMenu() {
     }
   };
 
-  const activeOrderCount = orders.filter((o) => o.status !== 'served' && o.status !== 'cancelled').length;
+  const activeOrderCount = orders.filter((o) => o.status !== 'paid' && o.status !== 'cancelled').length;
 
   const categories: MenuCategory[] = useMemo(() => {
     const seen: string[] = [];

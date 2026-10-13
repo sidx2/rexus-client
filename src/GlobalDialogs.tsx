@@ -175,7 +175,7 @@ export function GlobalDialogHost() {
     const pErr = validatePhone(phoneInput);
     setNameError(nErr);
     setPhoneError(pErr);
-    if (nErr || pErr) return;
+    // if (nErr || pErr) return;
 
     const info: GuestInfo = { name: nameInput.trim(), phone: normalizePhone(phoneInput) };
     writeGuestInfo(info);
